@@ -318,18 +318,14 @@
       
         
           <p><a name="SX2ne"></a></p>
-<h1 id="生命周期阶段"><a href="#生命周期阶段" class="headerlink" title="生命周期阶段"></a>生命周期阶段</h1><p><a name="Hw2Nz"></a></p>
+<h1 id="生命周期函数"><a href="#生命周期函数" class="headerlink" title="生命周期函数"></a>生命周期函数</h1><p><a name="Hw2Nz"></a></p>
 <h2 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h2><p>这个阶段执行的生命周期函数调用：</p>
 <ol>
 <li>constructor</li>
 <li>getDerivedStateFromProps</li>
 <li><del>UNSAFE_componentWillMount/ componentWillMount</del></li>
 <li>render</li>
-<li>componentDidMount<br><a name="raFLR"></a><h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><a name="8ipIP"></a><h4 id="何时调用"><a href="#何时调用" class="headerlink" title="何时调用"></a>何时调用</h4>组件的构造函数，第一个被执行<br>没有显示定义，也会自动添加。<br>如果显示定义了构造函数，必须在构造函数的第一行执行super（props），否则无法在构造函数中拿到this对象。<br><a name="mEYWu"></a><h4 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h4>只做两件事。</li>
-</ol>
-<ul>
-<li>初始化state对象</li>
-<li>为事件处理函数绑定实例<br><a name="a7uk5"></a>
+<li>componentDidMount<br><a name="raFLR"></a>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/09/07/React基础（2）/#more" rel="contents">
@@ -339,7 +335,7 @@
           <!--/noindex-->
         
       
-    </li></ul></div>
+    </li></ol></div>
     
     
     
