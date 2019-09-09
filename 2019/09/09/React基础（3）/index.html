@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。 父组件：">
+<meta name="description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React基础（3）组件间通信">
 <meta property="og:url" content="http://yoursite.com/2019/09/09/React基础（3）/index.html">
 <meta property="og:site_name" content="ForSakenSoul35">
-<meta property="og:description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。 父组件：">
+<meta property="og:description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-09T05:23:01.915Z">
+<meta property="og:updated_time" content="2019-09-09T05:25:57.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React基础（3）组件间通信">
-<meta name="twitter:description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。 父组件：">
+<meta name="twitter:description" content="组件间通信 父组件向子组件通信这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。">
 
 
 
@@ -320,8 +320,8 @@
         <p><a name="5mleD"></a></p>
 <h1 id="组件间通信"><a href="#组件间通信" class="headerlink" title="组件间通信"></a>组件间通信</h1><p><a name="I0p3Y"></a></p>
 <h2 id="父组件向子组件通信"><a href="#父组件向子组件通信" class="headerlink" title="父组件向子组件通信"></a>父组件向子组件通信</h2><p>这是最简单也是最常见的一种通信方式。父组件通过向组件间传递props，组件得到props后进行相应的处理。</p>
-<p>父组件：</p>
 <a id="more"></a>
+<p>父组件：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Child <span class="keyword">from</span> <span class="string">'./Child'</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">	render()&#123;</span><br><span class="line">  	<span class="keyword">return</span>(</span><br><span class="line">    	&lt;Child  title = <span class="string">"子组件的title 由父组件传递"</span> /&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>子组件：</p>
