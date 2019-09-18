@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="知识学习流程数据结构/数据类型=&amp;gt;内存空间=&amp;gt; 变量 var/let/const =&amp;gt; 执行上下文 =&amp;gt; 变量对象=&amp;gt; 作用域和作用域链=&amp;gt; this指向=&amp;gt; 闭包 this指向 概念解析器在调用函数时，每次都会像函数内传递进一个隐含的参数this，this指向一个对象，这个对象称为函数的上下文对象。根据函数调用方式的不同，this会指向不同的对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript重要概念">
+<meta property="og:url" content="http://yoursite.com/2019/09/18/JavaScript重要概念/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="知识学习流程数据结构/数据类型=&amp;gt;内存空间=&amp;gt; 变量 var/let/const =&amp;gt; 执行上下文 =&amp;gt; 变量对象=&amp;gt; 作用域和作用域链=&amp;gt; this指向=&amp;gt; 闭包 this指向 概念解析器在调用函数时，每次都会像函数内传递进一个隐含的参数this，this指向一个对象，这个对象称为函数的上下文对象。根据函数调用方式的不同，this会指向不同的对象。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-18T13:28:16.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript重要概念">
+<meta name="twitter:description" content="知识学习流程数据结构/数据类型=&amp;gt;内存空间=&amp;gt; 变量 var/let/const =&amp;gt; 执行上下文 =&amp;gt; 变量对象=&amp;gt; 作用域和作用域链=&amp;gt; this指向=&amp;gt; 闭包 this指向 概念解析器在调用函数时，每次都会像函数内传递进一个隐含的参数this，this指向一个对象，这个对象称为函数的上下文对象。根据函数调用方式的不同，this会指向不同的对象。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/18/JavaScript重要概念/">
+
+
+
+
+
+  <title>JavaScript重要概念 | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/18/JavaScript重要概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript重要概念</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-18T21:16:07+08:00">
+                2019-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a name="sK0it"></a></p>
+<h1 id="知识学习流程"><a href="#知识学习流程" class="headerlink" title="知识学习流程"></a>知识学习流程</h1><p>数据结构/数据类型<br>=&gt;内存空间<br>=&gt; 变量 var/let/const <br>=&gt; 执行上下文 <br>=&gt; 变量对象<br>=&gt; 作用域和作用域链<br>=&gt; this指向<br>=&gt; 闭包<br><a name="MZ2KI"></a></p>
+<h1 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h1><p><a name="3MYhR"></a></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>解析器在调用函数时，每次都会像函数内传递进一个隐含的参数this，this指向一个对象，这个对象称为函数的上下文对象。<br>根据函数调用方式的不同，this会指向不同的对象。</p>
+<a id="more"></a>
+<p><a name="xd5vu"></a></p>
+<h2 id="何时确定"><a href="#何时确定" class="headerlink" title="何时确定"></a>何时确定</h2><p><a name="ieNpL"></a></p>
+<h3 id="何时"><a href="#何时" class="headerlink" title="何时"></a>何时</h3><p>执行上下文生命周期中的创建阶段（生成变量对象，建立作用域链，确定this指向）<br>this的指向是在函数被调用的时候确定的<br><a name="E3nMS"></a></p>
+<h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>在JS中，数组，函数，对象都是引用类型，在参数传递时也就是引用传递。<br>因为函数在JS中，既可以当作值传递和返回，也可以当作对象和构造函数。<br>所有函数在运行时需要确定其当前的执行环境，this就确定了。<br>this会根据运行环境的改变而改变，同时函数中的this也只能在运行时才能最终确定运行环境。<br>怎么理解？<br>函数中的this是什么时候确定的？=&gt; 执行上下文的生命周期确定的，所以跟函数的运行环境有关系。<br>因此函数中的this会在函数调用时确定this的指向。</p>
+<p><a name="AKWsV"></a></p>
+<h2 id="this使用的分类："><a href="#this使用的分类：" class="headerlink" title="this使用的分类："></a>this使用的分类：</h2><ul>
+<li>全局作用域下的this</li>
+<li>函数作用域下的this</li>
+<li>事件绑定</li>
+<li>构造函数</li>
+<li>定时器</li>
+<li>函数对象的call，apply方法<br><a name="ofqIj"></a><h3 id="全局作用域下的this"><a href="#全局作用域下的this" class="headerlink" title="全局作用域下的this"></a>全局作用域下的this</h3>指向它本身，也就是window对象。<br><a name="fSHyn"></a><h3 id="函数作用域下的this"><a href="#函数作用域下的this" class="headerlink" title="函数作用域下的this"></a>函数作用域下的this</h3>要想确定函数this的指向，<strong>找到函数的调用者，和区分它是否是独立调用</strong></li>
+</ul>
+<ol>
+<li>在一个函数上下文中，this由调用者提供，由调用的方式决定</li>
+<li>如果函数独立调用，那么在严格模式下，该函数内部的this指向undefined，非严格模式下，当this指向undefined时，会自动指向window对象。<br><a name="Owmr0"></a><h3 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h3>事件绑定有三种方式：行内绑定，动态绑定，事件监听。<br><a name="wB8Dt"></a><h4 id="行内绑定"><a href="#行内绑定" class="headerlink" title="行内绑定"></a>行内绑定</h4>行内绑定有两种方式：指向window对象或者当前节点</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 运行环境在节点对象中，因此<span class="keyword">this</span>指向本节点对象 --&gt;</span><br><span class="line">&lt;input type=<span class="string">"button"</span> value=<span class="string">"按钮"</span> onclick=<span class="string">"console.log(this)"</span>&gt;</span><br><span class="line"></span><br><span class="line">  &lt;input type=<span class="string">"button"</span> value=<span class="string">"按钮"</span> onclick=<span class="string">"clickFun()"</span>&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">clickFun</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span> <span class="comment">// 此函数的运行环境在全局window对象下，因此this指向window;</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>区别在于绑定的事件是否是函数,是函数就指向window，不是函数，只是函数语句的，就指向当前元素。<br><a name="R9c9f"></a></p>
+<h4 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">"button"</span> value=<span class="string">"按钮"</span> id=<span class="string">"btn"</span>&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>);</span><br><span class="line">    btn.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span> ;  <span class="comment">// this指向本节点对象</span></span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a name="TY8B9"></a></p>
+<h4 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h4><p>事件监听中的this和动态绑定基本一致。</p>
+<p><a name="Z4z6v"></a></p>
+<h3 id="构造函数中的this"><a href="#构造函数中的this" class="headerlink" title="构造函数中的this"></a>构造函数中的this</h3><p>构造函数中的this 指向新建的对象。具体参考于构造函数章节。</p>
+<p><a name="31D7N"></a></p>
+<h3 id="window定时器中的this"><a href="#window定时器中的this" class="headerlink" title="window定时器中的this"></a>window定时器中的this</h3><p>以setInterval为例。<br>setInterval是window对象下内置的一个方法，接收两个参数，第一个参数允许是一个函数或者一段可执行的JS代码。第二个参数是指向前面函数或者代码的时间间隔。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    fun:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">this</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">​</span><br><span class="line">setInterval(obj.fun,<span class="number">1000</span>);      <span class="comment">// this指向window对象</span></span><br><span class="line">setInterval(<span class="string">'obj.fun()'</span>,<span class="number">1000</span>);  <span class="comment">// this指向obj对象</span></span><br></pre></td></tr></table></figure>
+
+<p>setInterval的第一个参数为fun时，由于JS中函数是可以被当作值来做引用传递，实际上就是将这个函数的地址当作参数传递给setInterval方法，换句话说，就是setInterval接收一个函数作为参数后，过了1000毫秒，<strong>函数的运行已经是在window对象下了</strong>，也就是说<strong>函数的调用者已经变成了window对象</strong>。所以其中的this则指向window对象。<br>而当setInterval接收一段可执行的代码时，1000毫秒后，JS引擎去执行这段代码，则是通过obj.fun指向函数，因此this指向obj对象。<br>总结： 当定时器接收一个函数作为第一个参数时，则函数中this指向window对象。如果接收一段可执行的代码时，则this的指向取决于这段可执行的代码。</p>
+<p><a name="52uwF"></a></p>
+<h3 id="call，apply方法"><a href="#call，apply方法" class="headerlink" title="call，apply方法"></a>call，apply方法</h3><p>call，apply方法都是用来强制指定函数调用时this的指向。<br>this指向call，apply方法的第一个参数。</p>
+<p><a name="vCVuE"></a></p>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p><a name="4TKsY"></a></p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p><a name="2FU0G"></a></p>
+<h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><p><a name="x8e3T"></a></p>
+<h1 id="构造函数，原型和原型链"><a href="#构造函数，原型和原型链" class="headerlink" title="构造函数，原型和原型链"></a>构造函数，原型和原型链</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/17/React状态管理之redux/" rel="next" title="React状态管理之Redux">
+                <i class="fa fa-chevron-left"></i> React状态管理之Redux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#知识学习流程"><span class="nav-number">1.</span> <span class="nav-text">知识学习流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#this指向"><span class="nav-number">2.</span> <span class="nav-text">this指向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时确定"><span class="nav-number">2.2.</span> <span class="nav-text">何时确定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何时"><span class="nav-number">2.2.1.</span> <span class="nav-text">何时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么"><span class="nav-number">2.2.2.</span> <span class="nav-text">为什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this使用的分类："><span class="nav-number">2.3.</span> <span class="nav-text">this使用的分类：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域下的this"><span class="nav-number">2.3.1.</span> <span class="nav-text">全局作用域下的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数作用域下的this"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数作用域下的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件绑定"><span class="nav-number">2.3.3.</span> <span class="nav-text">事件绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#行内绑定"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">行内绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态绑定"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">动态绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件监听"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">事件监听</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数中的this"><span class="nav-number">2.3.4.</span> <span class="nav-text">构造函数中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#window定时器中的this"><span class="nav-number">2.3.5.</span> <span class="nav-text">window定时器中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#call，apply方法"><span class="nav-number">2.3.6.</span> <span class="nav-text">call，apply方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#闭包"><span class="nav-number">3.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">4.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象"><span class="nav-number">5.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造函数，原型和原型链"><span class="nav-number">6.</span> <span class="nav-text">构造函数，原型和原型链</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
