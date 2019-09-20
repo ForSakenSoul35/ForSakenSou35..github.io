@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JavaScript异步解决方案 异步概念一个任务，不是连续完成的，可以理解该任务被人为分成两段，先执行一段，然后转而执行其他任务，等做好了准备，再回头来执行第二段。比如：读取文件任务  程序的第一段是想操作系统发送请求，要求读取哪个文件  程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段，对读取到的文件内容做处理 解决方案解决方案包括使用方式（以读取文件的例子）和错误处理。 回调函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript异步解决方案再总结">
+<meta property="og:url" content="http://yoursite.com/2019/09/20/JavaScript异步解决方案再总结/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="JavaScript异步解决方案 异步概念一个任务，不是连续完成的，可以理解该任务被人为分成两段，先执行一段，然后转而执行其他任务，等做好了准备，再回头来执行第二段。比如：读取文件任务  程序的第一段是想操作系统发送请求，要求读取哪个文件  程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段，对读取到的文件内容做处理 解决方案解决方案包括使用方式（以读取文件的例子）和错误处理。 回调函">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-20T02:25:39.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript异步解决方案再总结">
+<meta name="twitter:description" content="JavaScript异步解决方案 异步概念一个任务，不是连续完成的，可以理解该任务被人为分成两段，先执行一段，然后转而执行其他任务，等做好了准备，再回头来执行第二段。比如：读取文件任务  程序的第一段是想操作系统发送请求，要求读取哪个文件  程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段，对读取到的文件内容做处理 解决方案解决方案包括使用方式（以读取文件的例子）和错误处理。 回调函">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/20/JavaScript异步解决方案再总结/">
+
+
+
+
+
+  <title>JavaScript异步解决方案再总结 | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/JavaScript异步解决方案再总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript异步解决方案再总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T10:25:07+08:00">
+                2019-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JavaScript异步解决方案"><a href="#JavaScript异步解决方案" class="headerlink" title="JavaScript异步解决方案"></a>JavaScript异步解决方案</h1><p><a name="8vk4i"></a></p>
+<h1 id="异步概念"><a href="#异步概念" class="headerlink" title="异步概念"></a>异步概念</h1><p>一个任务，不是连续完成的，可以理解该任务被人为分成两段，先执行一段，然后转而执行其他任务，等做好了准备，再回头来执行第二段。<br>比如：读取文件任务</p>
+<ul>
+<li><p>程序的第一段是想操作系统发送请求，要求读取哪个文件</p>
+</li>
+<li><p>程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段，对读取到的文件内容做处理<br><a name="S8v5Z"></a></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>解决方案包括使用方式（以读取文件的例子）和错误处理。<br><a name="6ESVx"></a></p>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p><a name="NyFnW"></a></p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3></li>
+<li><p>JavaScript对于异步的实现，就是以回调函数的方式。</p>
+</li>
+<li><p>回调函数，就是将把任务的第二段单独写在一个函数中，等到重新执行这个任务的时候（第一段任务完成），就调用这个函数。</p>
+</li>
+<li><p>Node规定：回调函数的参数第一个必须是错误对象 error</p>
+<ul>
+<li>异步操作分别两个阶段，第一阶段执行过程中遇到错误的时候，由于第一阶段的任务执行完毕之后对应的上下文环境已经结束了，第二阶段无法捕获到，只能通过参数的形式来传递错误。<a id="more"></a>
+<a name="8pH3P"></a><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以回调函数的形式 实现读取文件</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'./index1.html'</span>,<span class="string">'utf-8'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(err) <span class="keyword">throw</span> err</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p><a name="foZ69"></a></p>
+<h3 id="缺点：-回调地狱"><a href="#缺点：-回调地狱" class="headerlink" title="缺点： 回调地狱"></a>缺点： 回调地狱</h3><ul>
+<li><p>概念： 多个回调函数嵌套，下一个回调函数依赖于上个回调函数的执行结果</p>
+</li>
+<li><p>原因： 人们习惯从上到下写代码，期望第一行发生的任何事情都会在第二行代码开始运行之前完成</p>
+</li>
+<li><p>缺点：嵌套函数 之间存在强耦合性，很难处理每一个错误，代码庞大，难以维护。</p>
+</li>
+<li><p>解决回调地狱：</p>
+<ul>
+<li>保持代码简短（通过函数名引用）</li>
+<li>模块化</li>
+<li>处理每一个错误<br><a name="80cwq"></a><h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><a name="kBtiW"></a><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3></li>
+</ul>
+</li>
+<li><p>Promise 对象用于表示一个异步操作的最终完成或者失败，以及结果值</p>
+</li>
+<li><p>Promise（）是一个构造函数，用于实例化 Promise对象</p>
+</li>
+<li><p>Promise是一种新的写法，而不是新的功能</p>
+</li>
+<li><p>回调函数本身没有问题，问题是多个回调函数嵌套，容易形成回调地狱，Promise就是为了解决这个问题<br><a name="yMTEb"></a></p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实例化一个Promise对象</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(</span><br><span class="line">  <span class="comment">// excutor 执行器</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span>&#123;&#125;</span><br><span class="line">)</span><br><span class="line"><span class="comment">// 使用函数包裹</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPromise</span>(<span class="params">...</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(</span><br><span class="line">  	<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>)</span></span><br><span class="line"><span class="function">  )</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><a name="oZ6SZ"></a></p>
+<h4 id="语法解析"><a href="#语法解析" class="headerlink" title="语法解析"></a>语法解析</h4><ul>
+<li><p>Promise构造函数的参数 是一个函数，称为执行器</p>
+</li>
+<li><p>Promis构造函数实例化对象时 会立即调用执行器函数（马上执行 ，因此 Promise对象一般使用函数包裹）<br><a name="uSQAd"></a></p>
+<h4 id="执行器函数解析"><a href="#执行器函数解析" class="headerlink" title="执行器函数解析"></a>执行器函数解析</h4><p><a name="Fkqca"></a></p>
+<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><p>执行器函数接收两个参数，resolve和reject。这两个都是函数，由JS引擎提供<br><a name="MyDIG"></a></p>
+<h5 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h5><p>执行器函数内通常会执行一些异步操作，一旦异步操作完成，可以通过判断，要么调用resolve函数将Promise的状态由pending改为fulfilled，或者调用reject将Promise的状态修改为rejected<br><a name="HDWJK"></a></p>
+<h5 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h5><p>如果在执行器函数内抛出一个错误，那么该promise的状态就会变化rejected，执行器函数的返回值将被忽略。<br><a name="lTDLw"></a></p>
+<h4 id="Promise的状态"><a href="#Promise的状态" class="headerlink" title="Promise的状态"></a>Promise的状态</h4><p>Promise对象有三种状态</p>
+</li>
+<li><p>pending 初始状态</p>
+</li>
+<li><p>fulfilled  成功状态</p>
+</li>
+<li><p>rejected 失败状态</p>
+</li>
+</ul>
+<p>pending状态的Promise对象可能会变为fulfilled状态并传递一个值给相应的状态处理方法。也可以变为失败状态并传递失败信息。</p>
+<p><a name="UcyZ9"></a></p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ol>
+<li>Promise.length length属性，其值总是为1</li>
+<li>Promise.prototype 表示Promise构造函数的原型<br><a name="KY8Y6"></a><h3 id="方法-由Promise调用"><a href="#方法-由Promise调用" class="headerlink" title="方法(由Promise调用)"></a>方法(由Promise调用)</h3><a name="M2P3z"></a><h4 id="Promise-resolve-value"><a href="#Promise-resolve-value" class="headerlink" title="Promise.resolve(value)"></a>Promise.resolve(value)</h4>返回一个给定值解析后的Promise对象。（将参数转化为Promise对象）。<br><a name="gMGgW"></a><h5 id="返回值规则"><a href="#返回值规则" class="headerlink" title="返回值规则"></a>返回值规则</h5></li>
+</ol>
+<ul>
+<li>如果value为基本类型的值，则返回一个resolved状态的Promise，并将value作为返回的Promise的第一个回调函数的参数。（作为成功回调函数的参数）</li>
+<li>如果value为Promise，则返回这个Promise。</li>
+<li>如果value为thenable对象，（定义了then方法的对象），返回的Promise会紧随这个对象，并且采用它的最终状态。（疑问）<br><a name="3FepA"></a><h5 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h5>不要在解析为自身的thenable对象上调用Promise.resolve(),这将会导致无线递归。（有疑问）</li>
+</ul>
+<p><a name="vdGgx"></a></p>
+<h4 id="Promise-reject-reason"><a href="#Promise-reject-reason" class="headerlink" title="Promise.reject(reason)"></a>Promise.reject(reason)</h4><p>返回一个带有拒绝原因参数的Promise对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.reject(<span class="string">"Testing static reject"</span>).then(</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 成功时的回调函数未被调用</span></span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">reason</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 失败时的回掉函数 执行了</span></span><br><span class="line">  <span class="built_in">console</span>.log(reason); <span class="comment">// "Testing static reject"</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a name="x0WAO"></a></p>
+<h4 id="Promise-all-iterable"><a href="#Promise-all-iterable" class="headerlink" title="Promise.all(iterable)"></a>Promise.all(iterable)</h4><p><a name="3gGq5"></a></p>
+<h4 id="Promise-race-iterable"><a href="#Promise-race-iterable" class="headerlink" title="Promise.race(iterable)"></a>Promise.race(iterable)</h4><p><a name="p0Rug"></a></p>
+<h3 id="原型属性"><a href="#原型属性" class="headerlink" title="原型属性"></a>原型属性</h3><p>原型属性是指Promise.prototype上的属性，即每个实例的公有属性。</p>
+<ul>
+<li>Promise.prototype.constructor  返回被创建的实例的构造函数，默认为Promise（）<br><a name="yCt2X"></a><h3 id="原型方法"><a href="#原型方法" class="headerlink" title="原型方法"></a>原型方法</h3><a name="u3sVN"></a><h4 id="Promise-prototype-then-onFulfilled-onRejected"><a href="#Promise-prototype-then-onFulfilled-onRejected" class="headerlink" title="Promise.prototype.then(onFulfilled,onRejected)"></a>Promise.prototype.then(onFulfilled,onRejected)</h4><a name="roOhz"></a><h5 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h5>then（）方法返回一个Promise。即 p1.then() 也是返回一个Promise。一个Promise实例调用then方法也是返回一个Promise。<br><a name="N1Qpb"></a><h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5>最多需要两个参数，Promise状态变为成功时的回调函数以及状态变为失败时的回调函数。<br><a name="6Xef6"></a><h5 id="参数省略的情况"><a href="#参数省略的情况" class="headerlink" title="参数省略的情况"></a>参数省略的情况</h5>如果忽略针对某个状态的回调函数参数，或者提供非函数参数，那么then方法将会丢失关于该状态的回调函数信息，但是并不会产生错误。<br>如果调用then方法的Promise状态发生变化，但是then方法中没有关于这种状态的回调函数，那么then方法将自动创建一个没有经过回调函数处理的新Promise对象，这么新的Promise的状态就是原来的Promise的终态。（仔细理解）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">'foo'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 'bar'不是函数，会在内部替换为 (x)=&gt;x</span></span><br><span class="line">p.then(<span class="string">'bar'</span>).then(<span class="function">(<span class="params">value</span>)=&gt;</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(value) <span class="comment">//'foo'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><a name="1YDc1"></a></p>
+<h5 id="参数解析"><a href="#参数解析" class="headerlink" title="参数解析"></a>参数解析</h5><ul>
+<li>onFulfilled 当Promise状态变成接受状态时，该参数作为回调函数被调用。该函数有一个参数，即接受的最终结果。</li>
+<li>onRejected 当Promise变成拒绝状态，该参数作为回调函数被调用。该函数有一个参数，即拒绝的原因。<br><a name="WDwnd"></a><h4 id="Promise-prototype-catch-onRejected"><a href="#Promise-prototype-catch-onRejected" class="headerlink" title="Promise.prototype.catch(onRejected)"></a>Promise.prototype.catch(onRejected)</h4><a name="3THyg"></a><h4 id="Promise-prototype-finally-onFinally"><a href="#Promise-prototype-finally-onFinally" class="headerlink" title="Promise.prototype.finally(onFinally)"></a>Promise.prototype.finally(onFinally)</h4><a name="bFPTs"></a><h3 id="创建Promise"><a href="#创建Promise" class="headerlink" title="创建Promise"></a>创建Promise</h3>Promise对象是由关键字new及其构造函数来创建的。<br>该构造函数会把一个叫做处理器的函数作为它的参数。<br>处理器函数接受两个函数resolve和reject作为它的参数。<br>当异步任务顺利完成且返回结果值得时候，会调用resolve函数。<br>而当异步任务失败且返回失败原因时，会调用reject函数。<br><a name="kptuw"></a><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用Promise 完成读取文件</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="comment">// 实例化一个promise对象</span></span><br><span class="line"><span class="keyword">const</span> readFilePromise = <span class="function"><span class="keyword">function</span>(<span class="params">fileName</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  	fs.readFile(fileName,<span class="string">'utf-8'</span>,(err,data)=&gt;&#123;</span><br><span class="line">    	<span class="keyword">if</span>(err) reject(err)</span><br><span class="line">        resolve(data)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> p1 = readFilePromise(<span class="string">'./index.html'</span>)</span><br><span class="line">p1.then(<span class="function">(<span class="params">data</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data)</span><br><span class="line">&#125;).catch(<span class="function"><span class="params">err</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><a name="3xTEq"></a></p>
+<h2 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h2><p><a name="9VgVm"></a></p>
+<h2 id="Async-Await"><a href="#Async-Await" class="headerlink" title="Async/Await"></a>Async/Await</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/19/JavaScript重要概念之七种继承方式/" rel="next" title="JavaScript重要概念之七种继承方式">
+                <i class="fa fa-chevron-left"></i> JavaScript重要概念之七种继承方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript异步解决方案"><span class="nav-number">1.</span> <span class="nav-text">JavaScript异步解决方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异步概念"><span class="nav-number">2.</span> <span class="nav-text">异步概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回调函数"><span class="nav-number">3.1.</span> <span class="nav-text">回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">3.1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.1.2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点：-回调地狱"><span class="nav-number">3.1.3.</span> <span class="nav-text">缺点： 回调地狱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise"><span class="nav-number">3.2.</span> <span class="nav-text">Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">3.2.2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语法解析"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">语法解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行器函数解析"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">执行器函数解析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参数"><span class="nav-number">3.2.2.2.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#执行"><span class="nav-number">3.2.2.2.2.</span> <span class="nav-text">执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#错误"><span class="nav-number">3.2.2.2.3.</span> <span class="nav-text">错误</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise的状态"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">Promise的状态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">3.2.3.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法-由Promise调用"><span class="nav-number">3.2.4.</span> <span class="nav-text">方法(由Promise调用)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-resolve-value"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">Promise.resolve(value)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值规则"><span class="nav-number">3.2.4.1.1.</span> <span class="nav-text">返回值规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注意"><span class="nav-number">3.2.4.1.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-reject-reason"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">Promise.reject(reason)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-all-iterable"><span class="nav-number">3.2.4.3.</span> <span class="nav-text">Promise.all(iterable)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-race-iterable"><span class="nav-number">3.2.4.4.</span> <span class="nav-text">Promise.race(iterable)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型属性"><span class="nav-number">3.2.5.</span> <span class="nav-text">原型属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型方法"><span class="nav-number">3.2.6.</span> <span class="nav-text">原型方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-prototype-then-onFulfilled-onRejected"><span class="nav-number">3.2.6.1.</span> <span class="nav-text">Promise.prototype.then(onFulfilled,onRejected)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值"><span class="nav-number">3.2.6.1.1.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数-1"><span class="nav-number">3.2.6.1.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数省略的情况"><span class="nav-number">3.2.6.1.3.</span> <span class="nav-text">参数省略的情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数解析"><span class="nav-number">3.2.6.1.4.</span> <span class="nav-text">参数解析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-prototype-catch-onRejected"><span class="nav-number">3.2.6.2.</span> <span class="nav-text">Promise.prototype.catch(onRejected)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-prototype-finally-onFinally"><span class="nav-number">3.2.6.3.</span> <span class="nav-text">Promise.prototype.finally(onFinally)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Promise"><span class="nav-number">3.2.7.</span> <span class="nav-text">创建Promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">3.2.8.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generator"><span class="nav-number">3.3.</span> <span class="nav-text">Generator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Async-Await"><span class="nav-number">3.4.</span> <span class="nav-text">Async/Await</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
