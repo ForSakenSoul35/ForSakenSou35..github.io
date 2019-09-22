@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="生命周期函数 挂载阶段这个阶段执行的生命周期函数调用：  constructor getDerivedStateFromProps UNSAFE_componentWillMount/ componentWillMount render componentDidMount">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React基础（2）生命周期函数">
+<meta property="og:url" content="http://yoursite.com/2019/09/07/React基础（2）/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="生命周期函数 挂载阶段这个阶段执行的生命周期函数调用：  constructor getDerivedStateFromProps UNSAFE_componentWillMount/ componentWillMount render componentDidMount">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-07T10:22:06.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React基础（2）生命周期函数">
+<meta name="twitter:description" content="生命周期函数 挂载阶段这个阶段执行的生命周期函数调用：  constructor getDerivedStateFromProps UNSAFE_componentWillMount/ componentWillMount render componentDidMount">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/07/React基础（2）/">
+
+
+
+
+
+  <title>React基础（2）生命周期函数 | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/07/React基础（2）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React基础（2）生命周期函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-07T18:17:07+08:00">
+                2019-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a name="SX2ne"></a></p>
+<h1 id="生命周期函数"><a href="#生命周期函数" class="headerlink" title="生命周期函数"></a>生命周期函数</h1><p><a name="Hw2Nz"></a></p>
+<h2 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h2><p>这个阶段执行的生命周期函数调用：</p>
+<ol>
+<li>constructor</li>
+<li>getDerivedStateFromProps</li>
+<li><del>UNSAFE_componentWillMount/ componentWillMount</del></li>
+<li>render</li>
+<li>componentDidMount<br><a name="raFLR"></a><a id="more"></a>
+<h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><a name="8ipIP"></a><h4 id="何时调用"><a href="#何时调用" class="headerlink" title="何时调用"></a>何时调用</h4>组件的构造函数，第一个被执行<br>没有显示定义，也会自动添加。<br>如果显示定义了构造函数，必须在构造函数的第一行执行super（props），否则无法在构造函数中拿到this对象。<br><a name="mEYWu"></a><h4 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h4>只做两件事。</li>
+</ol>
+<ul>
+<li>初始化state对象</li>
+<li>为事件处理函数绑定实例<br><a name="a7uk5"></a></li>
+</ul>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ol>
+<li>在constructor函数不要调用setState方法。可以直接this.state对state赋值</li>
+<li>要避免在构造函数中引入任何副作用或者订阅，如需这种操作，请放在componentDidMount。</li>
+<li>避免将props的值复制给state中。（有疑惑？） 直接使用props的值，不需要再进行复制。<br><a name="9WLw1"></a><h3 id="getDerivedStateFromProps-nextProps-preState"><a href="#getDerivedStateFromProps-nextProps-preState" class="headerlink" title="getDerivedStateFromProps(nextProps,preState)"></a>getDerivedStateFromProps(nextProps,preState)</h3><a name="IQZQ8"></a><h4 id="何时调用-1"><a href="#何时调用-1" class="headerlink" title="何时调用"></a>何时调用</h4>该函数会在挂载时，或者接受到新的props，或者调用了setState和forceUpdate时调用。<br>这个方法是为了取代之前的：</li>
+</ol>
+<ul>
+<li><del>UNSAFE_componentWillReceiveProps/componentWillReceiveProps</del></li>
+<li><del>componentWillUpdate/UNSAFE_componentWillUpdate</del></li>
+<li><del>UNSAFE_componentWillMount/ componentWillMount</del></li>
+</ul>
+<p>当我们接收到新的属性想去修改我们state，可以使用getDerviedStateFromProps<br><a name="d83mH"></a></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> getDerivedStateFromProps(nextProps,preState)</span><br></pre></td></tr></table></figure>
+
+<p><a name="rQYJ6"></a></p>
+<h4 id="参数-返回值"><a href="#参数-返回值" class="headerlink" title="参数/返回值"></a>参数/返回值</h4><p>这个函数有两个参数，prop和state,分别指接受到的新参数，和当前的state对象。<br>这个函数会返回一个对象来更新当前的state对象，如果不需要更新时，可以返回null。<br><a name="Kzd8V"></a></p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>因为是静态方法，因此不能使用this关键字<br><a name="fwjSB"></a></p>
+<h3 id="UNSAFE-componentWillMount-componentWillMount"><a href="#UNSAFE-componentWillMount-componentWillMount" class="headerlink" title="UNSAFE_componentWillMount/ componentWillMount"></a><del>UNSAFE_componentWillMount/ componentWillMount</del></h3><p>在16版本，这两个方法并存，在17版本之后，componentWillMount会被废弃。目的是为了向下兼容，新的应用请使用getDerivedStateFromProps。<br><a name="Iqh6c"></a></p>
+<h4 id="何时调用-2"><a href="#何时调用-2" class="headerlink" title="何时调用"></a>何时调用</h4><p>在render方法之前调用<br><a name="HuRvP"></a></p>
+<h4 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h4><p>可以使用setState方法，但是不会触发额外的渲染，因为在render方法之前执行。</p>
+<p><a name="TrPdx"></a></p>
+<h3 id="render"><a href="#render" class="headerlink" title="render"></a>render</h3><p>React中最核心的方法，一个组件中必须要有这个方法。<br><a name="Ts2uq"></a></p>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><p>返回的类型有以下几种类型：</p>
+<ul>
+<li>原生的DOM</li>
+<li>Fragment片段</li>
+<li>React组件</li>
+<li>字符串或数组 被渲染称text节点</li>
+<li>Boolean和null，不会渲染任何东西<br><a name="yc10V"></a><h4 id="能做什么-1"><a href="#能做什么-1" class="headerlink" title="能做什么"></a>能做什么</h4>render是纯函数，里面只做一件事，就是返回渲染的东西，不应该包含其他的业务逻辑，如请求数据等。</li>
+</ul>
+<p><a name="TBJBK"></a></p>
+<h3 id="componentDidMount"><a href="#componentDidMount" class="headerlink" title="componentDidMount"></a>componentDidMount</h3><p><a name="bHyiY"></a></p>
+<h4 id="何时调用-3"><a href="#何时调用-3" class="headerlink" title="何时调用"></a>何时调用</h4><p>组件装载之后。<br><a name="LpAlz"></a></p>
+<h4 id="能做什么-2"><a href="#能做什么-2" class="headerlink" title="能做什么"></a>能做什么</h4><p>此时可以获取到DOM节点，并操作<br>服务器请求，订阅<br><a name="QJn79"></a></p>
+<h4 id="注意-2"><a href="#注意-2" class="headerlink" title="注意"></a>注意</h4><p>在componentDidMount中调用setState会触发一次额外渲染，多调用了一次render函数，但是用户对此没有感知（疑问？），因为它是在浏览器刷新屏幕之前执行的，但是在开发中避免它， 因为会带来一定的性能问题。<br>应该在constructor中初始化state对象。</p>
+<p><a name="UalAh"></a></p>
+<h2 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h2><p>更新阶段 ，当组件的props改变，或者组件内部调用了setState或者forceUpdate。</p>
+<ol>
+<li><p><del>UNSAFE_componentWillReceiveProps/componentWillReceiveProps</del></p>
+</li>
+<li><p>getDerivedStateFromProps</p>
+</li>
+<li><p>shouldComponentUpdate</p>
+</li>
+<li><p><del>componentWillUpdate/UNSAFE_componentWillUpdate</del></p>
+</li>
+<li><p>render</p>
+</li>
+<li><p>getSnapshotBeforeUpdate</p>
+</li>
+<li><p>componentDidUpdate<br><a name="foPj6"></a></p>
+<h3 id="UNSAFE-componentWillReceiveProps-componentWillReceiveProps"><a href="#UNSAFE-componentWillReceiveProps-componentWillReceiveProps" class="headerlink" title="UNSAFE_componentWillReceiveProps/componentWillReceiveProps"></a><del>UNSAFE_componentWillReceiveProps/componentWillReceiveProps</del></h3><p>16版本这两个方法并存，在17版本componentWillReceiveProps将会被废弃，目的是为了向下兼容，新应用请用getDerivedStateFromProps代替他们。<br><a name="t6Kkv"></a></p>
+<h4 id="何时调用-4"><a href="#何时调用-4" class="headerlink" title="何时调用"></a>何时调用</h4><p>组件的props改变，或者组件内部调用了setState或者forceUpdate<br><a name="rWL0v"></a></p>
+<h4 id="注意-3"><a href="#注意-3" class="headerlink" title="注意"></a>注意</h4></li>
+<li><p>当父组件重新渲染的时候，会导致我们的子组件调用<del>UNSAFE_componentWillReceiveProps，</del>即使属性和之前的属性一样，所以需要我们在这个方法中去判断，如果前后属性不一致才去调用setState。</p>
+</li>
+<li><p>装载阶段这两个函数不会被触发，在组件内部调用了setState和forceUpdate也不会触发这两个函数。<br><a name="OfOlX"></a></p>
+<h3 id="getDerivedStateFromProps"><a href="#getDerivedStateFromProps" class="headerlink" title="getDerivedStateFromProps"></a>getDerivedStateFromProps</h3><p>注意：<br>在更新阶段，无论接收到新的属性，调用了setState或者forceUpdate，这个方法都会被调用。<br><a name="VftPq"></a></p>
+<h3 id="shouldComponentUpdate（nextProps，nextState）"><a href="#shouldComponentUpdate（nextProps，nextState）" class="headerlink" title="shouldComponentUpdate（nextProps，nextState）"></a>shouldComponentUpdate（nextProps，nextState）</h3><p><a name="UK68D"></a></p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>接收两个参数，nextProps和nextState，表示新的属性和变化之后的state<br><a name="TRNO4"></a></p>
+<h4 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h4><p>返回一个布尔值，默认是返回true，也就是接收到新的属性或者调用setState都会触发重新的渲染。<br><a name="OHr1U"></a></p>
+<h4 id="注意-4"><a href="#注意-4" class="headerlink" title="注意"></a>注意</h4><p>这会带来一定的性能问题 ，所以需要将this.props和nextProps以及this.state和nextState进行比较来决定是否返回false来减少重新渲染。<br>但是官方提倡使用PureComponent来减少重新渲染的次数而不是手动编写shouldComponentUpdate代码。<br>在未来的版本里，shouldComponentUpdate返回false，仍然可能导致组件的重新渲染。<br><a name="5Qjvw"></a></p>
+<h3 id="componentWillUpdate-UNSAFE-componentWillUpdate"><a href="#componentWillUpdate-UNSAFE-componentWillUpdate" class="headerlink" title="componentWillUpdate/UNSAFE_componentWillUpdate"></a><del>componentWillUpdate/UNSAFE_componentWillUpdate</del></h3><p>在16版本这两个方法将并存，但是在17版本将废弃componentWillUpdate，目的是为了向下兼容。<br><a name="KzBWz"></a></p>
+<h4 id="注意-5"><a href="#注意-5" class="headerlink" title="注意"></a>注意</h4><p>在这个方法里，你不能调用setState,因为能走到这个方法，说明shouldComponentupdate返回true，此时下一个state的状态已经被确定。<br>也不能请求一些网络数据。<br><a name="Rq7u2"></a></p>
+<h3 id="render-1"><a href="#render-1" class="headerlink" title="render"></a>render</h3><p><a name="agJge"></a></p>
+<h3 id="getSnapshotBeforeUpdate（preProps，preState）"><a href="#getSnapshotBeforeUpdate（preProps，preState）" class="headerlink" title="getSnapshotBeforeUpdate（preProps，preState）"></a>getSnapshotBeforeUpdate（preProps，preState）</h3><p>用来替代 componentWillUpdate,以及<br><a name="TpFjZ"></a></p>
+<h4 id="何时调用-5"><a href="#何时调用-5" class="headerlink" title="何时调用"></a>何时调用</h4><p>这个方法在render之后，ComponentDidUpdate之前调用。<br><a name="VzMi5"></a></p>
+<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><p>preProps，preState<br><a name="QaqYB"></a></p>
+<h4 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h4><p>这个函数有一个返回值，会作为第三个参数传给componentDidUpdate。<br>如果不想要返回值，返回null，不写的话会有警告。<br><a name="pkqw7"></a></p>
+<h4 id="注意-6"><a href="#注意-6" class="headerlink" title="注意"></a>注意</h4><p>这个方法 一定要和componentDidUpdate一起使用，否则控制台也会有警告。</p>
+</li>
+</ol>
+<p><a name="pUk7o"></a></p>
+<h3 id="componentDidUpdate（preProps，preState，snapshot）"><a href="#componentDidUpdate（preProps，preState，snapshot）" class="headerlink" title="componentDidUpdate（preProps，preState，snapshot）"></a>componentDidUpdate（preProps，preState，snapshot）</h3><p><a name="doQDB"></a></p>
+<h4 id="何时调用-6"><a href="#何时调用-6" class="headerlink" title="何时调用"></a>何时调用</h4><p>该方法在getSnapshotBeforeUpdate方法之后被调用。<br><a name="SxxjD"></a></p>
+<h4 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h4><p>有三个参数<br>preProps，preState，snapshot<br><a name="c97CH"></a></p>
+<h4 id="能做什么-3"><a href="#能做什么-3" class="headerlink" title="能做什么"></a>能做什么</h4><p>这个函数内可以操作DOM，和发起服务器请求，还可以setState，但是一定要注意用if语句控制，否则会导致无线循环。</p>
+<p><a name="xOx0d"></a></p>
+<h2 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h2><p><a name="L80AM"></a></p>
+<h3 id="componentWillUnmount"><a href="#componentWillUnmount" class="headerlink" title="componentWillUnmount"></a>componentWillUnmount</h3><p><a name="K5gTg"></a></p>
+<h4 id="何时调用-7"><a href="#何时调用-7" class="headerlink" title="何时调用"></a>何时调用</h4><p>当我们组件被卸载或者销毁之前就会调用<br><a name="1h6aG"></a></p>
+<h4 id="能做什么-4"><a href="#能做什么-4" class="headerlink" title="能做什么"></a>能做什么</h4><p>可以在这个函数内去清除一些定时器，取消网络请求，清理无效的DOM元素等。<br><a name="8PJ1S"></a></p>
+<h4 id="注意-7"><a href="#注意-7" class="headerlink" title="注意"></a>注意</h4><p>不要在这个函数内去调用setState，因为组件不会重新渲染了。</p>
+<p><a name="AJ00x"></a></p>
+<p>#<br><a name="1gPOm"></a></p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ol>
+<li><a href="https://juejin.im/post/5b6f1800f265da282d45a79a#heading-6" target="_blank" rel="noopener">https://juejin.im/post/5b6f1800f265da282d45a79a#heading-6</a></li>
+<li>React官方文档</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/05/React基础（1）/" rel="next" title="React基础（1）">
+                <i class="fa fa-chevron-left"></i> React基础（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/09/React基础（3）/" rel="prev" title="React基础（3）组件间通信">
+                React基础（3）组件间通信 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期函数"><span class="nav-number">1.</span> <span class="nav-text">生命周期函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#挂载阶段"><span class="nav-number">1.1.</span> <span class="nav-text">挂载阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.1.1.</span> <span class="nav-text">constructor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能做什么"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">能做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意事项"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getDerivedStateFromProps-nextProps-preState"><span class="nav-number">1.1.2.</span> <span class="nav-text">getDerivedStateFromProps(nextProps,preState)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数-返回值"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">参数/返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UNSAFE-componentWillMount-componentWillMount"><span class="nav-number">1.1.3.</span> <span class="nav-text">UNSAFE_componentWillMount/ componentWillMount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-2"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-1"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#render"><span class="nav-number">1.1.4.</span> <span class="nav-text">render</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#返回值"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能做什么-1"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">能做什么</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#componentDidMount"><span class="nav-number">1.1.5.</span> <span class="nav-text">componentDidMount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-3"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能做什么-2"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">能做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-2"><span class="nav-number">1.1.5.3.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新阶段"><span class="nav-number">1.2.</span> <span class="nav-text">更新阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UNSAFE-componentWillReceiveProps-componentWillReceiveProps"><span class="nav-number">1.2.1.</span> <span class="nav-text">UNSAFE_componentWillReceiveProps/componentWillReceiveProps</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-4"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-3"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getDerivedStateFromProps"><span class="nav-number">1.2.2.</span> <span class="nav-text">getDerivedStateFromProps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shouldComponentUpdate（nextProps，nextState）"><span class="nav-number">1.2.3.</span> <span class="nav-text">shouldComponentUpdate（nextProps，nextState）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回值-1"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-4"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#componentWillUpdate-UNSAFE-componentWillUpdate"><span class="nav-number">1.2.4.</span> <span class="nav-text">componentWillUpdate/UNSAFE_componentWillUpdate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-5"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#render-1"><span class="nav-number">1.2.5.</span> <span class="nav-text">render</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getSnapshotBeforeUpdate（preProps，preState）"><span class="nav-number">1.2.6.</span> <span class="nav-text">getSnapshotBeforeUpdate（preProps，preState）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-5"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数-1"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回值-2"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-6"><span class="nav-number">1.2.6.4.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#componentDidUpdate（preProps，preState，snapshot）"><span class="nav-number">1.2.7.</span> <span class="nav-text">componentDidUpdate（preProps，preState，snapshot）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-6"><span class="nav-number">1.2.7.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数-2"><span class="nav-number">1.2.7.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能做什么-3"><span class="nav-number">1.2.7.3.</span> <span class="nav-text">能做什么</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载阶段"><span class="nav-number">1.3.</span> <span class="nav-text">卸载阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#componentWillUnmount"><span class="nav-number">1.3.1.</span> <span class="nav-text">componentWillUnmount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#何时调用-7"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">何时调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能做什么-4"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">能做什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-7"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">2.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

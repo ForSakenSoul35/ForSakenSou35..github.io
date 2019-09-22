@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文概述 React.js概述 React环境安装 JSX render 事件监听 state props 组件间通信   React.js概述React.js是一个构建页面UI的库。一个组件的显示形态和行为有可能是由某些数据决定的。而数据也可能发生改变的。React.js提供一种非常高效的方式帮助我们做到数据和组件显示形态之间的同步。React.js 只是个UI库，提供UI层面的解决方案，在实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React基础（1）">
+<meta property="og:url" content="http://yoursite.com/2019/09/05/React基础（1）/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="本文概述 React.js概述 React环境安装 JSX render 事件监听 state props 组件间通信   React.js概述React.js是一个构建页面UI的库。一个组件的显示形态和行为有可能是由某些数据决定的。而数据也可能发生改变的。React.js提供一种非常高效的方式帮助我们做到数据和组件显示形态之间的同步。React.js 只是个UI库，提供UI层面的解决方案，在实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-07T03:47:47.629Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React基础（1）">
+<meta name="twitter:description" content="本文概述 React.js概述 React环境安装 JSX render 事件监听 state props 组件间通信   React.js概述React.js是一个构建页面UI的库。一个组件的显示形态和行为有可能是由某些数据决定的。而数据也可能发生改变的。React.js提供一种非常高效的方式帮助我们做到数据和组件显示形态之间的同步。React.js 只是个UI库，提供UI层面的解决方案，在实">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/05/React基础（1）/">
+
+
+
+
+
+  <title>React基础（1） | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/05/React基础（1）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React基础（1）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T11:49:07+08:00">
+                2019-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a name="W0Jfu"></a></p>
+<h1 id="本文概述"><a href="#本文概述" class="headerlink" title="本文概述"></a>本文概述</h1><ol>
+<li>React.js概述</li>
+<li>React环境安装</li>
+<li>JSX</li>
+<li>render</li>
+<li>事件监听</li>
+<li>state</li>
+<li>props</li>
+<li>组件间通信</li>
+</ol>
+<p><a name="wedbM"></a></p>
+<h1 id="React-js概述"><a href="#React-js概述" class="headerlink" title="React.js概述"></a>React.js概述</h1><p>React.js是一个构建页面UI的库。<br>一个组件的显示形态和行为有可能是由某些数据决定的。而数据也可能发生改变的。<br>React.js提供一种非常高效的方式帮助我们做到数据和组件显示形态之间的同步。<br>React.js 只是个UI库，提供UI层面的解决方案，在实际项目中，需要借助其他库解决更复杂的问题，比如路由库React-Router，状态管理Redux等等。</p>
+<a id="more"></a>
+<p><a name="rrp7v"></a></p>
+<h1 id="React环境安装"><a href="#React环境安装" class="headerlink" title="React环境安装"></a>React环境安装</h1><p>直接使用React官方提供的脚手架工具。create-react-app。<br><strong>安装步骤</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//安装</span></span><br><span class="line">npm install -g create-react-app</span><br><span class="line"><span class="comment">// 初始化项目</span></span><br><span class="line">create-react-app hello-react</span><br><span class="line"><span class="comment">// 执行项目</span></span><br><span class="line">cd hello-react</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+<p><a name="o0qZL"></a></p>
+<h1 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h1><p><a name="y0xJd"></a></p>
+<h2 id="React基本代码"><a href="#React基本代码" class="headerlink" title="React基本代码"></a>React基本代码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React，&#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span></span><br><span class="line"><span class="comment">// React 依赖两个主要的库  </span></span><br><span class="line"><span class="comment">// React.js 负责 支持JSX语法</span></span><br><span class="line"><span class="comment">// ReactDOM 负责 渲染页面</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Header</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">	render()&#123;</span><br><span class="line">  	<span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;hello world&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">ReactDOM.render(</span></span><br><span class="line"><span class="regexp">	&lt;Header /</span>&gt;,</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><a name="cE2O2"></a></p>
+<h2 id="JSX原理"><a href="#JSX原理" class="headerlink" title="JSX原理"></a>JSX原理</h2><p>一个DOM元素包含的信息有：标签名，属性，子元素。<br>我们可以使用JavaScript对象来描述所有能用HTML表示的UI信息，但是用Javascript来写，结构太长了，而且不够直观。<br>为了解决整个问题，React扩展了JavaScript的语法，让JavaScript能够支持这种直接在js中编写类似HTML标签结构的语法。<br>在编译过程中，会将类似的HTML的JSX结构转换为JavaScript的对象结构。<br><strong>JSX就是JavaScript对象。</strong><br>JSX 通过Babel编译以及React构造 转化为JavaScript对象，再通过ReactDOM.render方法插入到页面中。<br><strong>在React中，遇到大括号解析为JS，遇到&lt;&gt;解析为JSX语法。</strong><br>即在JSX中，可以使用大括号插入一个表达式，表达式返回的结果会相应的渲染到页面上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">render () &#123;</span><br><span class="line">  <span class="keyword">const</span> word = <span class="string">'is good'</span></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;h1&gt;React 小书 &#123;word&#125;&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>{  } 中可以放置任何的JS代码，变量，表达式计算，函数执行等等。<br><a name="V2YHc"></a></p>
+<h1 id="render"><a href="#render" class="headerlink" title="render"></a>render</h1><p><strong>一个组件类必须实现render方法。</strong><br><strong>rende方法必须返回一个JSX元素，且只能返回一个。</strong><br>返回并列多个JSX元素是不合法的，必须要用一个外层的JSX元素把所有内容包裹起来，也可以使用React本身提供的<fragment></fragment>组件包裹。</p>
+<p><a name="p5WpC"></a></p>
+<h1 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h1><p>在react中实现事件监听是很容易的，只需要给需要监听的元素加上属性类似于” onClick”这样的属性。<br>注意： <br>onClick 是大写的，必须使用驼峰法命名，后紧跟着的是一个表达式插入。<br>在React中不需要手动调用浏览器原生的addEventListener，React封装了一系列的 on* 属性，而且不需要考虑兼容性的问题，React已经封装好这些细节了。<br>这些事件监听的方法只能用在普通的HTML标签上，不能用在组件标签上。<br><a name="A4BVh"></a></p>
+<h2 id="event对象"><a href="#event对象" class="headerlink" title="event对象"></a>event对象</h2><p>和普通浏览器一样，事件监听函数也会被自动传入一个event对象，这个对象和普通的浏览器event对象所包含的属性和方法都是一致的，但是要注意的是，React中的event对象是React自己封装的，对外提供统一的方法和属性，并且不用考虑浏览器兼容的原因。<br><a name="Upnsl"></a></p>
+<h2 id="事件中的this"><a href="#事件中的this" class="headerlink" title="事件中的this"></a>事件中的this</h2><p>一般在某个类的实例方法中的this是指向这个实例本身。<br>但是在传递的时候，this可能会丢失。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  handleClickOnTitle (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>) <span class="comment">// =&gt; null or undefined</span></span><br><span class="line">  &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>原因：<br>React在调用你所传给它的方法时，并不是通过对象方法的方式调用的，而是通过函数调用（直接调用），所以事件函数内并不能通过this获取实例。<br>解决方法：</p>
+<ol>
+<li>需要手动绑定this指向，一般使用bind方法 在类的constructor方法内绑定。</li>
+<li>以箭头函数的方式定义事件函数。（箭头函数中的this指向在定义时就已经决定了）</li>
+</ol>
+<p><a name="plwGO"></a></p>
+<h1 id="state和setState"><a href="#state和setState" class="headerlink" title="state和setState"></a>state和setState</h1><p>一个组件的显示形态是可以由它数据状态和配置参数决定的。<br>一个组件可以拥有自己的状态。<br>在React中，state就是来存储这种状态的。<br><a name="j8BUa"></a></p>
+<h2 id="定义state"><a href="#定义state" class="headerlink" title="定义state"></a>定义state</h2><p>state是一个对象。<br>state在一个类的构造函数constructor中初始化。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LikeButton</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> () &#123;</span><br><span class="line">    <span class="keyword">super</span>()</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">isLiked</span>: <span class="literal">false</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p><a name="Hibru"></a></p>
+<h2 id="修改state"><a href="#修改state" class="headerlink" title="修改state"></a>修改state</h2><p>修改组件的state只能使用setState方法。<br>setState方法有组件的Component父类提供。当调用这个方法，会更新组件的state，并且重新调用render方法，然后再把render方法所渲染的最新的内容显示到页面上。<br><strong>setState方法接受一个对象或者函数作为参数。</strong><br><a name="bULJo"></a></p>
+<h3 id="setState方法接受对象作为参数"><a href="#setState方法接受对象作为参数" class="headerlink" title="setState方法接受对象作为参数"></a>setState方法接受对象作为参数</h3><p>当传入一个对象的时候，该对象表示该组件的新状态，但是只需要传入需要更新的部分就可以了，不需要传入整个对象。<br><a name="ywhT6"></a></p>
+<h3 id="setState方法接受一个函数作为参数"><a href="#setState方法接受一个函数作为参数" class="headerlink" title="setState方法接受一个函数作为参数"></a>setState方法接受一个函数作为参数</h3><p>使用setState，需要注意的点是，由于性能方面的考虑，通过setState方法修改组件的state并不会马上修改state，而是把这个对象放入一个更新队列里面，稍后才会从队列中把新的状态取出来再合并到state中，然后再触发组件更新。<br>但是，在某些场景中，又需要实时的拿到state去做一些处理。这个时候可以使用一个函数作为setState的参数。<br>该函数接受两个参数，一个是上个setState的结果，一个是最新的props<br><strong>函数中接收的state和props都能保证为最新。</strong><br>React会将最新的state和props传入这个函数，就可以使用该结果进行运算操作，然后返回一个新的对象作为更新state的对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">handleClickOnLikeButton () &#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;</span><br><span class="line">   &#125;)</span><br><span class="line">   <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">1</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 0，当前返回 1</span></span><br><span class="line">   &#125;)</span><br><span class="line">   <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">2</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 1，当前返回 3</span></span><br><span class="line">   &#125;)</span><br><span class="line">   <span class="comment">// 最后的结果是 this.state.count 为 3</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a name="ib4UJ"></a></p>
+<h1 id="props"><a href="#props" class="headerlink" title="props"></a>props</h1><p>组件是相互独立的，可复用的单元，一个组件可能在不同地方被用到，但是不同场景对同一个组件的要求可能不同。就需要组件有一定的配置性。<br>每个组件都有一个prop参数，它是一个对象，包含了对组件的配置。<br><a name="iwjwA"></a></p>
+<h2 id="使用props"><a href="#使用props" class="headerlink" title="使用props"></a>使用props</h2><p>组件内部通过 this.prop获取到组件的参数。<br>this.props.属性名<br><a name="QKZqc"></a></p>
+<h2 id="传入props"><a href="#传入props" class="headerlink" title="传入props"></a>传入props</h2><p>在使用一个组件的时候，可以把参数放在标签的属性当中，所有的属性都会作为props对象的键值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用props</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LikeButton</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"> ...</span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">const</span> likedText = <span class="keyword">this</span>.props.likedText || <span class="string">'取消'</span></span><br><span class="line">    <span class="keyword">const</span> unlikedText = <span class="keyword">this</span>.props.unlikedText || <span class="string">'点赞'</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;button onClick=&#123;<span class="keyword">this</span>.handleClickOnLikeButton.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.state.isLiked ? likedText : unlikedText&#125; 👍</span><br><span class="line">      &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/传入props</span></span><br><span class="line"><span class="regexp">class Index extends Component &#123;</span></span><br><span class="line"><span class="regexp">  render () &#123;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        &lt;LikeButton likedText='已赞' unlikedText='赞' /</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以将任何类型的数据作为组件的参数，包括字符串，数字，对象，数组甚至于函数。<br><a name="hqXLJ"></a></p>
+<h3 id="将函数作为参数传入组件"><a href="#将函数作为参数传入组件" class="headerlink" title="将函数作为参数传入组件"></a>将函数作为参数传入组件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Index</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">	render()&#123;</span><br><span class="line">  	<span class="keyword">return</span> (</span><br><span class="line">    	&lt;div&gt;</span><br><span class="line">      	&lt;LikeButton </span><br><span class="line">      	 wordings=&#123;&#123;<span class="attr">likedText</span>: <span class="string">'已赞'</span>, <span class="attr">unlikedText</span>: <span class="string">'赞'</span>&#125;&#125;</span><br><span class="line">         onClick=&#123;() =&gt; <span class="built_in">console</span>.log(<span class="string">'Click on like button!'</span>)&#125;</span><br><span class="line">        /&gt;	</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">onClick=&#123;() =&gt; console.log('Click on like button!')&#125;</span></span><br><span class="line"><span class="comment">onClick是属性名 </span></span><br><span class="line"><span class="comment">属性值是一个函数  ()=&gt;&#123; console.log(...)&#125;</span></span><br><span class="line"><span class="comment">传递给组件一个函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">class LikeButton extends Component &#123;</span></span><br><span class="line"><span class="regexp">  constructor () &#123;</span></span><br><span class="line"><span class="regexp">    super()</span></span><br><span class="line"><span class="regexp">    this.state = &#123; isLiked: false &#125;</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  handleClickOnLikeButton () &#123;</span></span><br><span class="line"><span class="regexp">    this.setState(&#123;</span></span><br><span class="line"><span class="regexp">      isLiked: !this.state.isLiked</span></span><br><span class="line"><span class="regexp">    &#125;)</span></span><br><span class="line"><span class="regexp">    if(this.props.onClick)&#123;</span></span><br><span class="line"><span class="regexp">    	this.props.onClick()</span></span><br><span class="line"><span class="regexp">      </span></span><br><span class="line"><span class="regexp">    &#125; </span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">  render () &#123;</span></span><br><span class="line"><span class="regexp">    const wordings = this.props.wordings || &#123;</span></span><br><span class="line"><span class="regexp">      likedText: '取消',</span></span><br><span class="line"><span class="regexp">      unlikedText: '点赞'</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    return (</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;this.handleClickOnLikeButton.bind(this)&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &#123;this.state.isLiked ? wordings.likedText : wordings.unlikedText&#125; 👍</span></span><br><span class="line"><span class="regexp">      &lt;/</span>button&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过this.props.onClick获取这个传进去的函数。</p>
+<p>每次点击按钮的时候，控制台都会显示 Click on like button！ 但是这个行为不是组件自己实现的，而是我们传进去的（相当于 自己实现了一个onClick函数）。<br><a name="0zu2t"></a></p>
+<h2 id="默认配置defaultProps"><a href="#默认配置defaultProps" class="headerlink" title="默认配置defaultProps"></a>默认配置defaultProps</h2><p>React提供了定义组件默认配置的方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span>...</span>&#123;</span><br><span class="line">	<span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">		likedText: <span class="string">'取消'</span>,</span><br><span class="line">    unlikedText: <span class="string">'点赞'</span></span><br><span class="line">	&#125;</span><br><span class="line">	render () &#123;</span><br><span class="line">    	<span class="keyword">return</span> (</span><br><span class="line">      		&lt;button onClick=&#123;<span class="keyword">this</span>.handleClickOnLikeButton.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">        	&#123;<span class="keyword">this</span>.state.isLiked</span><br><span class="line">          	? <span class="keyword">this</span>.props.likedText</span><br><span class="line">          	: <span class="keyword">this</span>.props.unlikedText&#125; 👍</span><br><span class="line">      	&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    	)</span></span><br><span class="line"><span class="regexp">  &#125;		</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用的时候不需要担心 在使用组件的时候没有传这个配置项，如果没有传进来，会使用默认配置项。<br><a name="wMQJt"></a></p>
+<h3 id="Props不可变"><a href="#Props不可变" class="headerlink" title="Props不可变"></a>Props不可变</h3><p>props一旦传进来，就不能改变。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/02/JavaScript异步解决方案/" rel="next" title="JavaScript异步解决方案">
+                <i class="fa fa-chevron-left"></i> JavaScript异步解决方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/07/React基础（2）/" rel="prev" title="React基础（2）生命周期函数">
+                React基础（2）生命周期函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文概述"><span class="nav-number">1.</span> <span class="nav-text">本文概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-js概述"><span class="nav-number">2.</span> <span class="nav-text">React.js概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React环境安装"><span class="nav-number">3.</span> <span class="nav-text">React环境安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSX"><span class="nav-number">4.</span> <span class="nav-text">JSX</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#React基本代码"><span class="nav-number">4.1.</span> <span class="nav-text">React基本代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSX原理"><span class="nav-number">4.2.</span> <span class="nav-text">JSX原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#render"><span class="nav-number">5.</span> <span class="nav-text">render</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事件监听"><span class="nav-number">6.</span> <span class="nav-text">事件监听</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#event对象"><span class="nav-number">6.1.</span> <span class="nav-text">event对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件中的this"><span class="nav-number">6.2.</span> <span class="nav-text">事件中的this</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#state和setState"><span class="nav-number">7.</span> <span class="nav-text">state和setState</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义state"><span class="nav-number">7.1.</span> <span class="nav-text">定义state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改state"><span class="nav-number">7.2.</span> <span class="nav-text">修改state</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setState方法接受对象作为参数"><span class="nav-number">7.2.1.</span> <span class="nav-text">setState方法接受对象作为参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setState方法接受一个函数作为参数"><span class="nav-number">7.2.2.</span> <span class="nav-text">setState方法接受一个函数作为参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#props"><span class="nav-number">8.</span> <span class="nav-text">props</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用props"><span class="nav-number">8.1.</span> <span class="nav-text">使用props</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传入props"><span class="nav-number">8.2.</span> <span class="nav-text">传入props</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将函数作为参数传入组件"><span class="nav-number">8.2.1.</span> <span class="nav-text">将函数作为参数传入组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认配置defaultProps"><span class="nav-number">8.3.</span> <span class="nav-text">默认配置defaultProps</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Props不可变"><span class="nav-number">8.3.1.</span> <span class="nav-text">Props不可变</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

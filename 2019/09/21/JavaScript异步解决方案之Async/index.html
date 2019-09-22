@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ES2017 引入了async函数，使得异步操作更方便。 概念async函数是什么，就是Generator函数的语法糖。 和Generator的区别12345678910111213141516171819202122232425// 使用Genrator函数 完成文件读取const fs = require(&apos;fs&apos;);const readFile = function (fileName) &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript异步解决方案之Async&#x2F;Await">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/JavaScript异步解决方案之Async/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="ES2017 引入了async函数，使得异步操作更方便。 概念async函数是什么，就是Generator函数的语法糖。 和Generator的区别12345678910111213141516171819202122232425// 使用Genrator函数 完成文件读取const fs = require(&apos;fs&apos;);const readFile = function (fileName) &amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/433141/1569032138496-5664f987-2b0d-4710-a9e0-3981a948aa23.png#align=left&display=inline&height=279&name=image.png&originHeight=279&originWidth=845&size=30951&status=done&width=845">
+<meta property="og:updated_time" content="2019-09-21T02:44:49.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript异步解决方案之Async&#x2F;Await">
+<meta name="twitter:description" content="ES2017 引入了async函数，使得异步操作更方便。 概念async函数是什么，就是Generator函数的语法糖。 和Generator的区别12345678910111213141516171819202122232425// 使用Genrator函数 完成文件读取const fs = require(&apos;fs&apos;);const readFile = function (fileName) &amp;">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/433141/1569032138496-5664f987-2b0d-4710-a9e0-3981a948aa23.png#align=left&display=inline&height=279&name=image.png&originHeight=279&originWidth=845&size=30951&status=done&width=845">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/21/JavaScript异步解决方案之Async/">
+
+
+
+
+
+  <title>JavaScript异步解决方案之Async/Await | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/JavaScript异步解决方案之Async/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript异步解决方案之Async/Await</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T10:43:07+08:00">
+                2019-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ES2017 引入了async函数，使得异步操作更方便。<br><a name="dw2uq"></a></p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a><a href="https://www.yuque.com/forsakensoul35/pbgcpi/as0c68#bcrhS" target="_blank" rel="noopener"></a>概念</h1><p>async函数是什么，就是Generator函数的语法糖。<br><a name="8WhgQ"></a></p>
+<h1 id="和Generator的区别"><a href="#和Generator的区别" class="headerlink" title="和Generator的区别"></a><a href="https://www.yuque.com/forsakensoul35/pbgcpi/as0c68#7HBsZ" target="_blank" rel="noopener"></a>和Generator的区别</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用Genrator函数 完成文件读取</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readFile = <span class="function"><span class="keyword">function</span> (<span class="params">fileName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    fs.readFile(fileName, <span class="function"><span class="keyword">function</span>(<span class="params">error, data</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (error) <span class="keyword">return</span> reject(error);</span><br><span class="line">      resolve(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> f1 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/fstab'</span>);</span><br><span class="line">  <span class="keyword">const</span> f2 = <span class="keyword">yield</span> readFile(<span class="string">'/etc/shells'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 使用async/await</span></span><br><span class="line"><span class="keyword">const</span> asyncReadFile = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> f1 = <span class="keyword">await</span> readFile(<span class="string">'/etc/fstab'</span>);</span><br><span class="line">  <span class="keyword">const</span> f2 = <span class="keyword">await</span> readFile(<span class="string">'/etc/shells'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>区别主要在于： 把* 号换成async，把yield换成了await/</p>
+<a id="more"></a>
+<p><a name="27r6r"></a></p>
+<h1 id="对Generator的改进"><a href="#对Generator的改进" class="headerlink" title="对Generator的改进"></a><a href="https://www.yuque.com/forsakensoul35/pbgcpi/as0c68#OpjVu" target="_blank" rel="noopener"></a>对Generator的改进</h1><ol>
+<li>内置执行器</li>
+</ol>
+<p>Generator函数的执行必须依赖co模块。<br>async函数不需要，调用方式和普通函数一致，后加一个括号即可。调用之后，就会自动执行，输出最后结果。</p>
+<ol start="2">
+<li>更好的语义 </li>
+</ol>
+<p>async和await，语义更加清楚了。async表示函数内有异步操作。 await 表示紧跟在后面的表达式需要等待结果。</p>
+<ol start="3">
+<li>返回值是Promise</li>
+</ol>
+<p>Generator函数的返回值是遍历器对象，async函数的返回值是Promise。</p>
+<ol start="4">
+<li>更广的适用性</li>
+</ol>
+<p>co模块规定，yield后只能是Thunk函数，或者Promise对象。<br>但是await之后可以是Promise和基本类型的值，基本类型的值会自动调用Promise.resolvd()转化为resolved状态的Promise。</p>
+<p><a name="T7Zem"></a></p>
+<h1 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a><a href="https://www.yuque.com/forsakensoul35/pbgcpi/as0c68#XHUEt" target="_blank" rel="noopener"></a>基本用法</h1><p>async函数返回一个Promise对象，可以适用then方法添加回调函数，当函数执行的时候，一旦遇到await就先返回，等到异步操作完成，再接着执行函数体内后面的语句。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getStockPriceByName</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> symbol = <span class="keyword">await</span> getStockSymbol(name);</span><br><span class="line">  <span class="keyword">const</span> stockPrice = <span class="keyword">await</span> getStockPrice(symbol);</span><br><span class="line">  <span class="keyword">return</span> stockPrice;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getStockPriceByName(<span class="string">'goog'</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">result</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(result);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a name="GMFkg"></a></p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>async函数的语法相对来说简单，比较难的是错误处理机制。<br><a name="83qlH"></a></p>
+<h2 id="返回Promise对象"><a href="#返回Promise对象" class="headerlink" title="返回Promise对象"></a>返回Promise对象</h2><p>async函数返回一个Promiseu对象，函数体内的return语句返回的值，会称为then方法的参数。<br>如果函数体内抛出错误，会导致返回的Promise对象变为reject状态，抛出的错误对象会被catch方法回调函数或者onRejected接收到。<br><a name="NVrtC"></a></p>
+<h2 id="Promise对象的状态变化"><a href="#Promise对象的状态变化" class="headerlink" title="Promise对象的状态变化"></a>Promise对象的状态变化</h2><p>async函数返回的Promise对象，必须等到内部所有的await命令后面的Promise对象执行完，才会发生状态变化。<br>也是说async函数内部的异步操作执行完，才会执行then方法指定的回调函数。</p>
+<p><a name="hL5Om"></a></p>
+<h2 id="await-命令"><a href="#await-命令" class="headerlink" title="await 命令"></a>await 命令</h2><p>正常情况下 await后面是一个Promise对象，返回该对象的结果。如果不是Promise对象，就直接返回对应的值。<br>另一种情况，await命令后面是一个thenable对象，即定义then方法的对象，那么await会将其等同于Promise对象。<br>如果await命令后面的Promise对象如果变为rejected状态，则reject的参数会被catch方法的回调函数接收到。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="built_in">Promise</span>.reject(<span class="string">'出错了'</span>);<span class="comment">//这是一个rejected状态的 Promise </span></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f()</span><br><span class="line">.then(<span class="function"><span class="params">v</span> =&gt;</span> <span class="built_in">console</span>.log(v),e =&gt; <span class="built_in">console</span>.log(e))</span><br><span class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(e))</span><br><span class="line"><span class="comment">// 出错了</span></span><br><span class="line"><span class="comment">// await语句没有return 但是reject方法的参数依然传入了catch方法，这里如果在await前面加上return</span></span><br><span class="line"><span class="comment">// 效果是一样的</span></span><br></pre></td></tr></table></figure>
+
+<p>任何一个await语句后的Promise对象变为reject状态，那么整个async函数都会被中断执行。<br>如何避免这种情况：我们希望 尽管出错，也要继续执行<br>使用try..catch语句包裹await语句，处理可能出现的错误</p>
+<p><a name="LoN5o"></a></p>
+<h1 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h1><p>如果await后面的异步操作出错，那么等同于async函数返回的Promise对象被reject。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'出错了'</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// f()执行之后 会返回一个Promise</span></span><br><span class="line"><span class="built_in">console</span>.log(f())</span><br><span class="line"><span class="comment">// throw出来的错误会导致catch方法后面的回调函数被调用，参数就是抛出的错误对象</span></span><br><span class="line">f()</span><br><span class="line">.then(<span class="function"><span class="params">v</span> =&gt;</span> <span class="built_in">console</span>.log(v))</span><br><span class="line">.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(e))</span><br></pre></td></tr></table></figure>
+
+<p> 浏览器中执行：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/433141/1569032138496-5664f987-2b0d-4710-a9e0-3981a948aa23.png#align=left&display=inline&height=279&name=image.png&originHeight=279&originWidth=845&size=30951&status=done&width=845" alt="image.png"></p>
+<p>防止出错的方法，是使用try..catch语句。如果有多个命令，可以统一放在try..catch语句中。</p>
+<p><a name="s00ep"></a></p>
+<h1 id="使用注意点"><a href="#使用注意点" class="headerlink" title="使用注意点"></a>使用注意点</h1><ol>
+<li>最好将await命令使用try…catch包裹</li>
+<li>多个await命令后面的异步操作，如果不存在继发关系，最好让它们同时触发。</li>
+<li>await命令只能用在async函数中。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/21/JavaScript异步解决方案之Generator/" rel="next" title="JavaScript异步解决方案之Generator">
+                <i class="fa fa-chevron-left"></i> JavaScript异步解决方案之Generator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#和Generator的区别"><span class="nav-number">2.</span> <span class="nav-text">和Generator的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对Generator的改进"><span class="nav-number">3.</span> <span class="nav-text">对Generator的改进</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本用法"><span class="nav-number">4.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语法"><span class="nav-number">5.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#返回Promise对象"><span class="nav-number">5.1.</span> <span class="nav-text">返回Promise对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise对象的状态变化"><span class="nav-number">5.2.</span> <span class="nav-text">Promise对象的状态变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#await-命令"><span class="nav-number">5.3.</span> <span class="nav-text">await 命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误处理"><span class="nav-number">6.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用注意点"><span class="nav-number">7.</span> <span class="nav-text">使用注意点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

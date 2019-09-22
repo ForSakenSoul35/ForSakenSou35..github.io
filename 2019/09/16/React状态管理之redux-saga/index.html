@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Redux-Saga 概念Redux-saga是一个用于管理应用程序副作用的库。副作用 Side Effects 是指 异步获取数据，读取浏览器缓存等操作。目的：是为了让副作用管理更容易，执行更高效。 特点redux-saga是redux的一个中间件，意味着这个线程可以通过正常的redux-action从主应用程序启动，暂停和取消。并且能访问完整的redux state，也可以dispatch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React状态管理之redux-saga">
+<meta property="og:url" content="http://yoursite.com/2019/09/16/React状态管理之redux-saga/index.html">
+<meta property="og:site_name" content="ForSakenSoul35">
+<meta property="og:description" content="Redux-Saga 概念Redux-saga是一个用于管理应用程序副作用的库。副作用 Side Effects 是指 异步获取数据，读取浏览器缓存等操作。目的：是为了让副作用管理更容易，执行更高效。 特点redux-saga是redux的一个中间件，意味着这个线程可以通过正常的redux-action从主应用程序启动，暂停和取消。并且能访问完整的redux state，也可以dispatch">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T03:01:07.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React状态管理之redux-saga">
+<meta name="twitter:description" content="Redux-Saga 概念Redux-saga是一个用于管理应用程序副作用的库。副作用 Side Effects 是指 异步获取数据，读取浏览器缓存等操作。目的：是为了让副作用管理更容易，执行更高效。 特点redux-saga是redux的一个中间件，意味着这个线程可以通过正常的redux-action从主应用程序启动，暂停和取消。并且能访问完整的redux state，也可以dispatch">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/16/React状态管理之redux-saga/">
+
+
+
+
+
+  <title>React状态管理之redux-saga | ForSakenSoul35</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ForSakenSoul35</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/React状态管理之redux-saga/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XieHongBin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForSakenSoul35">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React状态管理之redux-saga</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-16T21:30:07+08:00">
+                2019-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a name="uh8vU"></a></p>
+<h1 id="Redux-Saga"><a href="#Redux-Saga" class="headerlink" title="Redux-Saga"></a>Redux-Saga</h1><p><a name="QEMDw"></a></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Redux-saga是一个用于管理应用程序副作用的库。<br>副作用 Side Effects 是指 异步获取数据，读取浏览器缓存等操作。<br>目的：是为了让副作用管理更容易，执行更高效。<br><a name="l6JZ0"></a></p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>redux-saga是redux的一个中间件，意味着这个线程可以通过正常的redux-action从主应用程序启动，暂停和取消。<br>并且能访问完整的redux state，也可以dispatch redux action。<br>这意味着应用的逻辑会出现在两个地方：</p>
+<a id="more"></a>
+<ol>
+<li>reducer 负责处理action的state更新</li>
+<li>Sagas 负责协调 那些复杂的操作或者异步的操作。</li>
+</ol>
+<p>在redux-saga中，所有的任务都通过yield effects来完成，Effects都是简单的JavaScript对象，包含了要被Saga Middleware执行的信息。<br><a name="pi6G9"></a></p>
+<h3 id="与redux-thunk的区别"><a href="#与redux-thunk的区别" class="headerlink" title="与redux-thunk的区别"></a>与redux-thunk的区别</h3><p>thunks会在action被创建时调用，而sagas会在应用启动时调用，并且监听派发给store的action,然后决定基于这个action来做什么，或者发起一个异步调用，或者发起其他的action到state中，甚至是调用其他的sagas。</p>
+<p><a name="ReNjK"></a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add redux-saga</span><br></pre></td></tr></table></figure>
+
+<p><a name="hyYlz"></a></p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// store/index.js // 创建store的位置</span></span><br><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createSagaMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux-saga'</span></span><br><span class="line"><span class="keyword">import</span> reducer <span class="keyword">from</span> <span class="string">'./reducer'</span></span><br><span class="line"><span class="comment">// 导入 定义好的 mySaga.js 文件</span></span><br><span class="line"><span class="keyword">import</span> mySaga <span class="keyword">from</span> <span class="string">'./mySaga'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 创建saga中间件</span></span><br><span class="line"><span class="keyword">const</span> sagaMiddleware = createSagaMiddleware()</span><br><span class="line"><span class="comment">// 创建store</span></span><br><span class="line"><span class="keyword">const</span> store = createMiddleware(</span><br><span class="line">	reducer,<span class="comment">// reducer作为第一个参数</span></span><br><span class="line">  applyMiddleware(sagaMiddleware) <span class="comment">// 通过applyMiddleware方法 使用中间件</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// 运行中间件</span></span><br><span class="line">sagaMiddleware(mySaga).run()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store</span><br></pre></td></tr></table></figure>
+
+<p><a name="8Nfxu"></a></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>自定义的 saga文件。<br>saga 必须导出为 一个Generator函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导入辅助函数</span></span><br><span class="line"><span class="keyword">import</span> &#123; takeEvery &#125; <span class="keyword">from</span> <span class="string">'redux-saga'</span></span><br><span class="line"><span class="comment">// 导入 Effect Creator</span></span><br><span class="line"><span class="keyword">import</span> &#123; call, put &#125; <span class="keyword">from</span> <span class="string">'redux-saga/effects'</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">getInitList</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">const</span> res = <span class="keyword">yield</span> axios.get(<span class="string">'https://api.github.com/users/forsakensoul35/repos'</span>)</span><br><span class="line">  <span class="keyword">const</span> action = &#123;</span><br><span class="line">  	type:<span class="string">'init_list_item'</span>,</span><br><span class="line">    data:res</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">yield</span> put(action)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">mySaga</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">// 要监听的action</span></span><br><span class="line">  <span class="comment">// 监听事件的类型  为 GET_INIT_LIST </span></span><br><span class="line">  <span class="comment">// 就执行 getInitList函数</span></span><br><span class="line">  <span class="keyword">yield</span> takeEvery(GET_INIT_LIST,getInitList)</span><br><span class="line">  <span class="comment">// 在这里面，可以监听各种类型的action</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 导出 监听器 mySaga</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> mySaga</span><br></pre></td></tr></table></figure>
+
+<p><a name="hHIsJ"></a></p>
+<h2 id="核心Api"><a href="#核心Api" class="headerlink" title="核心Api"></a>核心Api</h2><p><a name="5U3xn"></a></p>
+<h3 id="辅助函数"><a href="#辅助函数" class="headerlink" title="辅助函数"></a>辅助函数</h3><p><a name="G0Qv4"></a></p>
+<h4 id="takeEvery"><a href="#takeEvery" class="headerlink" title="takeEvery"></a>takeEvery</h4><p>监听每一个指定的action，监听到一次，就执行一次。允许多次同时启动。<br><a name="gOslZ"></a></p>
+<h4 id="takeLatest"><a href="#takeLatest" class="headerlink" title="takeLatest"></a>takeLatest</h4><p>与takeEvery不同，在任意时刻，takeLatest只允许一个特定的任务执行，并且这个任务是最后启动的那次，如果之前已经有一个任务在执行，那之前的这个任务会自动被取消。<br><a name="jGSMQ"></a></p>
+<h3 id="Effect-Creator"><a href="#Effect-Creator" class="headerlink" title="Effect Creator"></a>Effect Creator</h3><p><a name="is7jJ"></a></p>
+<h4 id="put-（action）"><a href="#put-（action）" class="headerlink" title="put （action）"></a>put （action）</h4><p>put函数 是用来发送 action的effect，可以理解为redux中的dispatch方法，当put一个action之后，reducer会根据action的type做对应的操作。<br><a name="y4ZXR"></a></p>
+<h4 id="call（fn，…args）"><a href="#call（fn，…args）" class="headerlink" title="call（fn，…args）"></a>call（fn，…args）</h4><p>call函数可以理解为 可以调用其他函数的函数，命令middleware执行fn函数，args为函数的参数。<br>fn也可以是一个Generator函数，也可以是一个返回Promise对象的普通函数。<br><a name="z5cKk"></a></p>
+<h4 id="fork（fn-…args）"><a href="#fork（fn-…args）" class="headerlink" title="fork（fn,…args）"></a>fork（fn,…args）</h4><p>fork函数和call函数很想，都是用来调用其他函数的，但是fork函数是非阻塞函数，也就是说函数执行完fork这一行代码之后，会立即执行下一行代码，不会 等待fn函数的返回结果。<br><a name="bnPU7"></a></p>
+<h4 id="select-selector-…args"><a href="#select-selector-…args" class="headerlink" title="select(selector,…args)"></a>select(selector,…args)</h4><p>select函数是用来指示middleware调用可提供的选择器获取store上的state数据，可以理解为redux框架上的store.getState方法</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/09/React基础（4）/" rel="next" title="React基础（4）Context上下文 简单使用">
+                <i class="fa fa-chevron-left"></i> React基础（4）Context上下文 简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/16/React状态管理之react-redux/" rel="prev" title="React状态管理之react-redux">
+                React状态管理之react-redux <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">XieHongBin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ForSakenSoul35" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redux-Saga"><span class="nav-number">1.</span> <span class="nav-text">Redux-Saga</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">1.2.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#与redux-thunk的区别"><span class="nav-number">1.2.1.</span> <span class="nav-text">与redux-thunk的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.3.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">1.4.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.5.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心Api"><span class="nav-number">1.6.</span> <span class="nav-text">核心Api</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助函数"><span class="nav-number">1.6.1.</span> <span class="nav-text">辅助函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#takeEvery"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">takeEvery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#takeLatest"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">takeLatest</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Effect-Creator"><span class="nav-number">1.6.2.</span> <span class="nav-text">Effect Creator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#put-（action）"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">put （action）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#call（fn，…args）"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">call（fn，…args）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fork（fn-…args）"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">fork（fn,…args）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select-selector-…args"><span class="nav-number">1.6.2.4.</span> <span class="nav-text">select(selector,…args)</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">[object Object]</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
